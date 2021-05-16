@@ -17,3 +17,10 @@ services:
         command: celery -A worker worker -l info
         volumes:
             - .:/code
+    worker:
+        build: .
+        env_file:
+            - .env
+        command: python worker/runner.py
+        volumes:
+            - .:/code

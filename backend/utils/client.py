@@ -1,11 +1,15 @@
 from rejson import Client, Path
+import os
 
 
 def get_redis_client():
+    REDIS_PORT = os.environ['REDIS_PORT']
+    REDIS_PASSWORD = os.environ['REDIS_PASSWORD']
+    REDIS_HOST = os.environ['REDIS_HOST']
     client = Client(
-        host='redis-17210.c232.us-east-1-2.ec2.cloud.redislabs.com',
-        port=17210,
-        password='NworrNgcOZkR4Alna0RUgeQL3nf2kqAP',
+        host=REDIS_HOST,
+        port=REDIS_PORT,
+        password=REDIS_PASSWORD,
         decode_responses=True
     )
     if client.exists("districts") == 0:
