@@ -1,4 +1,4 @@
-from .tasks import fetch_slots
+from worker.tasks import fetch_slots
 from utils.client import get_redis_client
 import time
 

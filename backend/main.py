@@ -25,6 +25,7 @@ async def register_users(user: User):
     code = os.urandom(3).hex()
     user.code = code
     district = str(user.district)
+    user.session_ids = []
     obj = dict(user)
     path = f'["{user.email}"]'
     redis_client.jsonset('users', Path(path), obj)

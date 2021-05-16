@@ -1,0 +1,23 @@
+{
+    "app_name": "cowin-emailer",
+    "description": "A tool to notify users about COVID vaccination slots",
+    "hidden": false,
+    "rank": "21",
+    "type": "Full App",
+    "contributed_by": "Community",
+    "repo_url": "https://github.com/aryan9600/redis-hack-cowin-emailer/",
+    "download_url": "https://github.com/redis-developer/adding-apps-to-redis-marketplace/archive/refs/heads/master.zip",
+    "hosted_url": "http://34.93.10.131",
+    "language": ["Python"],
+    "redis_commands": ["EXISTS", "JSON.GET", "JSON.SET", "JSON.ARRAPPEND"],
+    "redis_features": [],
+    "redis_modules": ["RediJSON"],
+    "app_image_urls": [
+        "https://github.com/aryan9600/redis-hack-cowin-emailer/blob/main/screenshots/Screen%20Shot%202021-05-16%20at%2008.46.11.png"
+    ],
+    "youtube_url": "https://youtu.be/p7iCCUxRYrg",
+    "special_tags": ["Hackathon"],
+    "verticals": ["Healthcare"],
+    "markdown": "https://raw.githubusercontent.com/aryan9600/redis-hack-cowin-emailer/main/README.md"
+}
+

@@ -21,6 +21,6 @@ services:
         build: .
         env_file:
             - .env
-        command: python worker/runner.py
+        command: python runner.py
         volumes:
             - .:/code
