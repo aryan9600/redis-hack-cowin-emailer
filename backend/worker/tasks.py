@@ -5,9 +5,13 @@ from datetime import datetime
 from utils.mail import send_email
 from celery import Celery
 import requests
+import os
 
 APP_NAME = 'tasks'
-BROKER_NAME = 'redis://:NworrNgcOZkR4Alna0RUgeQL3nf2kqAP@redis-17210.c232.us-east-1-2.ec2.cloud.redislabs.com:17210'
+REDIS_PASSWORD = os.environ['REDIS_PASSWORD']
+REDIS_HOST = os.environ['REDIS_HOST']
+REDIS_PORT = os.environ['REDIS_PORT']
+BROKER_NAME = f'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}'
 
 app = Celery(APP_NAME, broker=BROKER_NAME)
 

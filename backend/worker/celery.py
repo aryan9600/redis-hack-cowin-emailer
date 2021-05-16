@@ -1,6 +1,11 @@
+import os
 from celery import Celery
 
 APP_NAME = 'worker'
-BROKER_NAME = 'redis://:NworrNgcOZkR4Alna0RUgeQL3nf2kqAP@redis-17210.c232.us-east-1-2.ec2.cloud.redislabs.com:17210'
+REDIS_PORT = os.environ['REDIS_PORT']
+REDIS_PASSWORD = os.environ['REDIS_PASSWORD']
+REDIS_HOST = os.environ['REDIS_HOST']
+BROKER_NAME = f'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}'
+
 
 app = Celery(APP_NAME, broker=BROKER_NAME, include=['worker.tasks'])

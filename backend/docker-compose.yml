@@ -3,6 +3,8 @@ services:
     web:
         build: .
         command: uvicorn main:app --workers 2 --host 0.0.0.0
+        env_file:
+            - .env
         volumes:
             - .:/code
         ports:
@@ -10,6 +12,8 @@ services:
 
     celery:
         build: .
+        env_file:
+            - .env
         command: celery -A worker worker -l info
         volumes:
             - .:/code

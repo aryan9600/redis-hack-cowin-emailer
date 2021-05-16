@@ -1,7 +1,6 @@
 from typing import List
 import requests
 import os
-
 def send_email(emails: List[str], subject: str, body: str):
     response = requests.post(
         url=os.environ['MAIL_URL'],
