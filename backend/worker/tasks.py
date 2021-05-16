@@ -30,28 +30,37 @@ def send_verification_mail(email: str, code: str):
 
 @app.task
 def fetch_slots(district_id: int):
-    client = get_redis_client()
     url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict"
     IST = pytz.timezone('Asia/Kolkata')
     date = datetime.now(IST).strftime("%d-%m-%Y")
     params = {"district_id": district_id, "date": date}
     headers = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"}
-    centers = requests.get(url, params=params, headers=headers)
-    centers = centers.json()
+    resp = requests.get(url, params=params, headers=headers)
+    centers = resp.json()
+
+    client = get_redis_client()
+    # Get all emails for this district.
     emails = client.jsonget("districts", Path(f'["{district_id}"]'))
     paths = [Path(f'["{email}"]') for email in emails]
+    # Get all users with the emails.
     users = client.jsonget("users", *paths)
+
     for center in centers['centers']:
         for session in center['sessions']:
-            if session['min_age_limit'] > 0:
+            # Consider sessions which have a non zero capacity.
+            if session['available_capacity'] > 0:
                 tb_notified_users = []
                 session_id = session['session_id']
+                # If emails/paths has only one element, user is a dictionary representing the user
+                # object.
                 if len(emails) == 1:
                     if session_id not in users['session_ids']:
                         if users['verified']:
                             email = users['email']
                             tb_notified_users.append(email)
+                            # Record the session into the user to avoid notifiying again.
                             client.jsonarrappend("users", Path(f'["{email}"]["session_ids"]'), session_id)
+                # Else users is a dictionary, with the key as the email and value as the object
                 else:
                     for user in users.values():
                         if user['verified']:

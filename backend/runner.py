@@ -5,6 +5,7 @@ import time
 
 client = get_redis_client()
 while True:
+    # Get all district ids.
     district_ids = client.jsonobjkeys("districts")
     for district_id in district_ids:
         district_id = int(district_id)
