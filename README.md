@@ -38,3 +38,26 @@
 * To get all emails belonging to a district: `JSON.GET districts '["district_id"]`
 * To get all users via list of emails: `JSON.GET users '["{email1}"]' '["{email2}"]' ...`
 * To store the notification status of a slot for a user: `JSON.ARRAPPEND users '["{email}"]'["session_ids"] session_id`
+
+## Installation Steps
+
+### Backend
+The entire backend is dockerized with the help of docker-compose into three services:
+* `web`: This service runs the FastAPI server
+* `celery`: This service runs the celery worker
+* `worker`: This service starts the runner to fetch slots and send emails.
+
+To have the backend up and running run `docker-compose up --build` from inside the `backend` directory. Make sure you have a `.env` file similar to the `.env.template`.
+To have the backend running properly, you need to have a Redis server loaded with the RediJSON module running. This project uses the Redis Cloud Enterprise Service for the same, but you can also use the [`redismod`](https://github.com/RedisLabsModules/redismod) image for the same. In that case, make sure to update the `.env` file accordingly or you can add it as a service to the `docker-compose.yml` itself, like:
+```yml
+- redis:
+  image: redislabs/redismod
+  ports:
+      - 6379:6379
+```
+
+### CLI
+The binary for macOS and Linux are available in the release section of this repo, if you just want to use it.
+The CLI is written in Rust, so you need to have [`rustc`](https://www.rust-lang.org/tools/install) installed on your machine to build from source:
+* `cd cli`
+* `cargo build --release`
