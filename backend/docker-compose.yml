@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+    web:
+        build: .
+        command: uvicorn main:app --workers 2 --host 0.0.0.0
+        volumes:
+            - .:/code
+        ports:
+            - 8000:8000
+
+    celery:
+        build: .
+        command: celery -A worker worker -l info
+        volumes:
+            - .:/code
